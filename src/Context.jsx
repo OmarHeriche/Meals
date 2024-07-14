@@ -1,30 +1,43 @@
 //todo import react elements:start
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 //todo import react elements:end
 
 //todo intialize my variables:start
-import axios, { all } from "axios";
-const AppContext = React.createContext();
-const allMealsUrl =
-    "https://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata";
-const randomMealUrl =
-    "https://www.themealdb.com/api/json/v1/1/random.php";
+import axios from "axios";
+const allMealsUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
+const randomMealUrl = "https://www.themealdb.com/api/json/v1/1/random.php";
 //todo intialize my variables:end
 
+const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
+    const [meals, setMeals] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
+
     const fetchMeals = async (url) => {
         try {
-            let {data} = await axios.get(url);
-            console.log(data);
+            let { data } = await axios.get(url);
+            setMeals(data.meals);
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
+    const fetchRandomMeal = ()=>{
+        fetchMeals(randomMealUrl);
+    }
     useEffect(() => {
         fetchMeals(allMealsUrl);
     }, []);
+    useEffect(() => {
+        if (!searchTerm) {
+            return;
+        }
+        fetchMeals(`${allMealsUrl}${searchTerm}`);
+    }, [searchTerm]);
     return (
-        <AppContext.Provider value={{ name: "omar", age: "21", skill: "Js" }}>
+        <AppContext.Provider value={{ meals, loading,setSearchTerm,fetchRandomMeal }}>
             {children}
         </AppContext.Provider>
     );
