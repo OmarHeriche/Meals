@@ -13,6 +13,24 @@ const AppProvider = ({ children }) => {
     const [meals, setMeals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [selectedMeal, setSelectedMeal] = useState(null);
+    const [favorites, setFavorites] = useState(
+        localStorage.getItem("favorites")
+            ? JSON.parse(localStorage.getItem("favorites"))
+            : []
+    );
+
+    const selectMeal = (idMeal, favoriteMeal) => {
+        let meal;
+        if (favoriteMeal) {
+            meal = favorites.find((item) => item.idMeal === idMeal);
+        }else{
+            meal = meals.find((item) => item.idMeal === idMeal);
+        }
+        setSelectedMeal(meal);
+        setShowModal(true);
+    };
 
     const fetchMeals = async (url) => {
         try {
@@ -24,24 +42,63 @@ const AppProvider = ({ children }) => {
             setLoading(false);
         }
     };
-    const fetchRandomMeal = ()=>{
+
+    const fetchRandomMeal = () => {
         fetchMeals(randomMealUrl);
-    }
+    };
+
+    const addToFavorites = (idMeal) => {
+        const alreadyFavorite = favorites.find(
+            (item) => item.idMeal === idMeal
+        );
+        if (alreadyFavorite) return;
+        const meal = meals.find((item) => item.idMeal === idMeal);
+        setFavorites([...favorites, meal]);
+        console.log(favorites);
+    };
+    const removeFromFavorites = (idMeal) => {
+        const newFavorites = favorites.filter((item) => item.idMeal !== idMeal);
+        setFavorites(newFavorites);
+    };
+
+    //! use effects:start
     useEffect(() => {
         fetchMeals(allMealsUrl);
     }, []);
+
     useEffect(() => {
         if (!searchTerm) {
             return;
         }
         fetchMeals(`${allMealsUrl}${searchTerm}`);
     }, [searchTerm]);
+
+    useEffect(() => {
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    }, [favorites]);
+    //! use effects:end
+
     return (
-        <AppContext.Provider value={{ meals, loading,setSearchTerm,fetchRandomMeal }}>
+        <AppContext.Provider
+            value={{
+                meals,
+                loading,
+                setSearchTerm,
+                fetchRandomMeal,
+                showModal,
+                selectMeal,
+                selectedMeal,
+                setShowModal,
+                addToFavorites,
+                removeFromFavorites,
+                favorites,
+            }}
+        >
             {children}
         </AppContext.Provider>
     );
 };
+
 const useGlobalContext = () => {
     return useContext(AppContext);
 };

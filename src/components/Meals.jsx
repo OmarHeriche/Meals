@@ -5,14 +5,13 @@ import InProcess from "./InProcess.jsx";
 //todo import components:end
 
 export default () => {
-    const { meals, loading } = useGlobalContext();
-    if(!meals) {
-        return (
-            <InProcess text = "No Meals With This Name" />
-        );
+    const { meals, loading, selectMeal, addToFavorites,favorites } =
+        useGlobalContext();
+    if (!meals) {
+        return <InProcess text="No Meals With This Name" />;
     }
-    return loading===true ? (
-        <InProcess text = "LOADING..."/>
+    return loading === true ? (
+        <InProcess text="LOADING..." />
     ) : (
         <section className="section-center">
             {meals.map((singleMeal) => {
@@ -22,12 +21,20 @@ export default () => {
                     strMeal: title,
                 } = singleMeal;
                 //! console.log(singleMeal);
-                return(
+                return (
                     <article key={idMeal} className="single-meal">
-                        <img src={image} alt={title} className="image" />
+                        <img
+                            src={image}
+                            alt={title}
+                            className="image"
+                            onClick={() => selectMeal(idMeal,false)}
+                        />
                         <footer>
                             <h5>{title}</h5>
-                            <button className="like-btn">
+                            <button
+                                className="like-btn"
+                                onClick={() => addToFavorites(idMeal)}
+                            >
                                 <BsHandThumbsUp />
                             </button>
                         </footer>
