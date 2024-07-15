@@ -1,7 +1,7 @@
 /*! my variables */
 :root {
     --background-color: #09272c;
-    --primary-color: #49cbdf;
+    --primary-color: #f46306;
     --secondary-color: #502da7;
     --good-color: #3a4d54;
     --main-trans: 0.3s;
@@ -9,7 +9,7 @@
 }
 /*! my variables */
 
-.the-parent{
+.the-parent {
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -28,10 +28,10 @@
     flex-wrap: wrap;
     gap: 10px;
 }
-.search-container form input:focus{
+.search-container form input:focus {
     outline: none;
 }
-.search-container form input{
+.search-container form input {
     border-radius: 8px;
     border: none;
     border: 1px solid #2f2f2f;
@@ -46,11 +46,11 @@
     cursor: pointer;
     transition: 0.3s;
 }
-.search-container form button:hover{
+.search-container form button:hover {
     transform: translateY(-1px);
     background-color: var(--primary-color);
     color: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 /* todo search:end */
 
@@ -66,17 +66,33 @@
     padding-right: 15px;
 }
 
-@media screen and (min-width: 776px) {
+@media screen and (min-width: 500px) {
     .section-center {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 800px) {
     .section-center {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
+@media screen and (min-width: 1240px) {
+    .section-center {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/*! .single-meal {
+    background: #2f2f2f;
+    border-radius: 24px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0);
+    transition: 0.3s;
+    text-align: center;
+    color: white;
+    margin-right: auto;
+    margin-left: auto;
+} */
 .single-meal {
     background: #2f2f2f;
     border-radius: 24px;
@@ -84,23 +100,63 @@
     transition: 0.3s;
     text-align: center;
     color: white;
-    /*! width: fit-content; */
     margin-right: auto;
     margin-left: auto;
+    min-height: 300px;
 }
 .single-meal:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
 }
-.image {
-    /* ! width: 200px; */
-}
+
 .single-meal img {
-    /* height: 15rem; */
     width: 100%;
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
     cursor: pointer;
+    object-fit: cover;
+    min-height: 350px;
 }
+
+@media screen and (min-width: 500px) {
+    .single-meal img{
+        min-height: 230px;
+    }
+}
+@media screen and (max-width: 370px) {
+    .single-meal img{
+        min-height: 100px;
+    }
+}
+
+/* @media screen and (max-width: 500px) {
+    .single-meal img {
+        min-height: 250px;
+    }
+    
+}
+@media screen and (min-width: 501px) {
+    .single-meal img {
+        height: 220px;
+    }
+}
+@media screen and (min-width: 560px) {
+    .single-meal img {
+        height: 330px;
+    }
+    
+}
+@media screen and (min-width: 500px) {
+    .single-meal img {
+        min-height: 220px;
+    }
+    
+}
+@media screen and (min-width: 780px) {
+    .single-meal img {
+        min-height: 400px;
+    }
+    
+} */
 .single-meal h5 {
     padding: 0;
     margin: 0;
@@ -111,6 +167,7 @@
     padding: 1rem 1.5rem;
     align-items: center;
     flex-wrap: wrap;
+    height: fit-content;
 }
 .single-meal .like-btn {
     background-color: transparent;
